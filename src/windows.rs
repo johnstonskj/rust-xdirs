@@ -1,6 +1,7 @@
 use dirs_next::{cache_dir, config_dir, data_dir, data_local_dir, home_dir};
 use dirs_sys_next::known_folder;
 use std::path::PathBuf;
+use winapi::um::knownfolders;
 
 // ------------------------------------------------------------------------------------------------
 // Public Functions
