@@ -108,17 +108,15 @@ mod tests {
         assert_eq!(dir.to_string_lossy().to_string(), path.to_string())
     }
 
+    fn test_dir_is_none(dir: Option<PathBuf>) {
+        assert!(dir.is_none())
+    }
+
+    // --------------------------------------------------------------------------------------------
+
     #[test]
     fn test_application_dir() {
         test_dir(crate::application_dir().unwrap(), "/Applications");
-    }
-
-    #[test]
-    fn test_application_dir_for() {
-        test_dir(
-            crate::application_dir_for("Chrome").unwrap(),
-            "/Applications/Chrome.app",
-        );
     }
 
     #[test]
@@ -130,33 +128,33 @@ mod tests {
     }
 
     #[test]
-    fn test_executable_dir_for() {
-        test_dir(
-            crate::executable_dir_for("Chrome").unwrap(),
-            "/Applications/Chrome.app/Contents/MacOS",
-        );
-    }
-
-    #[test]
     fn test_user_application_dir() {
         test_user_dir(crate::user_application_dir().unwrap(), "Applications");
     }
 
+    // --------------------------------------------------------------------------------------------
+
     #[test]
-    fn test_user_application_dir_for() {
-        test_user_dir(
-            crate::user_application_dir_for("Chrome").unwrap(),
-            "Applications/Chrome.app",
-        );
+    fn test_app_container_dir_for() {
+        test_dir_is_none(crate::test_app_container_dir_for("Chrome"));
     }
 
     #[test]
-    fn test_user_executable_dir_for() {
-        test_user_dir(
-            crate::user_executable_dir_for("Chrome").unwrap(),
-            "Applications/Chrome.app/Contents/MacOS",
-        );
+    fn test_app_container_executable_dir_for() {
+        test_dir_is_none(crate::test_app_container_executable_dir_for("Chrome"));
     }
+
+    #[test]
+    fn test_user_app_container_dir_for() {
+        test_dir_is_none(crate::test_user_app_container_dir_for("Chrome"));
+    }
+
+    #[test]
+    fn test_user_app_container_executable_dir_for() {
+        test_dir_is_none(crate::test_user_app_container_executable_dir_for("Chrome"));
+    }
+
+    // --------------------------------------------------------------------------------------------
 
     #[test]
     fn test_cache_dir() {

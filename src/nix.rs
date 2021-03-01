@@ -1,9 +1,13 @@
-use dirs_next::{cache_dir, config_dir, data_dir, data_local_dir, home_dir};
+use dirs_next::{cache_dir, config_dir, data_dir, data_local_dir};
 use std::path::PathBuf;
 
 // ------------------------------------------------------------------------------------------------
 // Public Functions
 // ------------------------------------------------------------------------------------------------
+
+const D_FAVORITES: &str = "favorites";
+const D_LOGS: &str = "logs";
+const D_TEMPLATES: &str = "templates";
 
 pub fn application_dir() -> Option<PathBuf> {
     None
@@ -27,7 +31,7 @@ pub fn app_container_executable_dir_for(app: &str) -> Option<PathBuf> {
     app_container_dir_for(app)
 }
 
-pub fn user_app_container_dir_for(app: &str) -> Option<PathBuf> {
+pub fn user_app_container_dir_for(_: &str) -> Option<PathBuf> {
     None
 }
 
@@ -54,7 +58,7 @@ pub fn data_local_dir_for(app: &str) -> Option<PathBuf> {
 }
 
 pub fn favorites_dir() -> Option<PathBuf> {
-    data_local_dir().map(|h| h.join("favorites"))
+    data_local_dir().map(|h| h.join(D_FAVORITES))
 }
 
 pub fn favorites_dir_for(app: &str) -> Option<PathBuf> {
@@ -62,7 +66,7 @@ pub fn favorites_dir_for(app: &str) -> Option<PathBuf> {
 }
 
 pub fn log_dir() -> Option<PathBuf> {
-    data_local_dir().map(|h| h.join("logs"))
+    data_local_dir().map(|h| h.join(D_LOGS))
 }
 
 pub fn log_dir_for(app: &str) -> Option<PathBuf> {
@@ -80,7 +84,7 @@ pub fn preference_dir_for(app: &str) -> Option<PathBuf> {
 pub use dirs_next::template_dir;
 
 pub fn template_dir_for(app: &str) -> Option<PathBuf> {
-    template_dir().map(|d| d.join(app))
+    config_dir_for(app).map(|d| d.join(D_TEMPLATES))
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -107,157 +111,146 @@ mod tests {
         assert_eq!(dir.to_string_lossy().to_string(), path.to_string())
     }
 
-    #[test]
-    fn test_application_dir() {
-        test_dir(crate::application_dir().unwrap(), "/Applications");
+    fn test_dir_is_none(dir: Option<PathBuf>) {
+        assert!(dir.is_none())
     }
 
+    // --------------------------------------------------------------------------------------------
+
     #[test]
-    fn test_application_dir_for() {
-        test_dir(
-            crate::application_dir_for("Chrome").unwrap(),
-            "/Applications/Chrome.app",
-        );
+    fn test_application_dir() {
+        test_dir_is_none(crate::application_dir());
     }
 
     #[test]
     fn test_application_shared_dir() {
-        test_dir(
-            crate::application_shared_dir().unwrap(),
-            "/Library/Frameworks",
-        );
-    }
-
-    #[test]
-    fn test_executable_dir_for() {
-        test_dir(
-            crate::executable_dir_for("Chrome").unwrap(),
-            "/Applications/Chrome.app/Contents/MacOS",
-        );
+        test_dir_is_none(crate::application_shared_dir());
     }
 
     #[test]
     fn test_user_application_dir() {
-        test_user_dir(crate::user_application_dir().unwrap(), "Applications");
+        test_dir_is_none(crate::user_application_dir());
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    #[test]
+    fn test_app_container_dir_for() {
+        test_dir_is_none(crate::test_app_container_dir_for("Chrome"));
     }
 
     #[test]
-    fn test_user_application_dir_for() {
-        test_user_dir(
-            crate::user_application_dir_for("Chrome").unwrap(),
-            "Applications/Chrome.app",
-        );
+    fn test_app_container_executable_dir_for() {
+        test_dir_is_none(crate::test_app_container_executable_dir_for("Chrome"));
     }
 
     #[test]
-    fn test_user_executable_dir_for() {
-        test_user_dir(
-            crate::user_executable_dir_for("Chrome").unwrap(),
-            "Applications/Chrome.app/Contents/MacOS",
-        );
+    fn test_user_app_container_dir_for() {
+        test_dir_is_none(crate::test_user_app_container_dir_for("Chrome"));
     }
+
+    #[test]
+    fn test_user_app_container_executable_dir_for() {
+        test_dir_is_none(crate::test_user_app_container_executable_dir_for("Chrome"));
+    }
+
+    // --------------------------------------------------------------------------------------------
 
     #[test]
     fn test_cache_dir() {
-        test_user_dir(crate::cache_dir().unwrap(), "Library/Caches");
+        test_user_dir(crate::cache_dir().unwrap(), ".cache");
     }
 
     #[test]
     fn test_cache_dir_for() {
-        test_user_dir(
-            crate::cache_dir_for("Chrome").unwrap(),
-            "Library/Caches/Chrome",
-        );
+        test_user_dir(crate::cache_dir_for("Chrome").unwrap(), ".cache/Chrome");
     }
 
     #[test]
     fn test_config_dir() {
-        test_user_dir(crate::config_dir().unwrap(), "Library/Application Support");
+        test_user_dir(crate::config_dir().unwrap(), ".config");
     }
 
     #[test]
     fn test_config_dir_for() {
-        test_user_dir(
-            crate::config_dir_for("Chrome").unwrap(),
-            "Library/Application Support/Chrome",
-        );
+        test_user_dir(crate::config_dir_for("Chrome").unwrap(), ".config/Chrome");
     }
 
     #[test]
     fn test_data_dir() {
-        test_user_dir(crate::data_dir().unwrap(), "Library/Application Support");
+        test_user_dir(crate::data_dir().unwrap(), ".local/share");
     }
 
     #[test]
     fn test_data_dir_for() {
         test_user_dir(
             crate::data_dir_for("Chrome").unwrap(),
-            "Library/Application Support/Chrome",
+            ".local/share/Chrome",
         );
     }
 
     #[test]
     fn test_data_local_dir() {
-        test_user_dir(
-            crate::data_local_dir().unwrap(),
-            "Library/Application Support",
-        );
+        test_user_dir(crate::data_local_dir().unwrap(), ".local/share");
     }
 
     #[test]
     fn test_data_local_dir_for() {
         test_user_dir(
             crate::data_local_dir_for("Chrome").unwrap(),
-            "Library/Application Support/Chrome",
+            ".local/share/Chrome",
         );
     }
 
     #[test]
     fn test_favorites_dir() {
-        test_user_dir(crate::favorites_dir().unwrap(), "Library/Favorites");
+        test_user_dir(crate::favorites_dir().unwrap(), ".local/share/favorites");
     }
 
     #[test]
     fn test_favorites_dir_for() {
         test_user_dir(
             crate::favorites_dir_for("Chrome").unwrap(),
-            "Library/Favorites/Chrome",
+            ".local/share/favorites/Chrome",
         );
     }
 
     #[test]
     fn test_log_dir() {
-        test_user_dir(crate::log_dir().unwrap(), "Library/Logs");
+        test_user_dir(crate::log_dir().unwrap(), ".local/share/logs");
     }
 
     #[test]
     fn test_log_dir_for() {
-        test_user_dir(crate::log_dir_for("Chrome").unwrap(), "Library/Logs/Chrome");
+        test_user_dir(
+            crate::log_dir_for("Chrome").unwrap(),
+            ".local/share/logs/Chrome",
+        );
     }
 
     #[test]
     fn test_preference_dir() {
-        test_user_dir(crate::preference_dir().unwrap(), "Library/Preferences");
+        test_user_dir(crate::preference_dir().unwrap(), ".config");
     }
 
     #[test]
     fn test_preference_dir_for() {
         test_user_dir(
             crate::preference_dir_for("Chrome").unwrap(),
-            "Library/Preferences/Chrome",
+            ".config/Chrome",
         );
     }
 
     #[test]
     fn test_template_for() {
-        assert_eq!(crate::template_dir(), None,);
+        test_dir_is_none(crate::template_dir());
     }
 
     #[test]
     fn test_template_dir_for() {
         test_user_dir(
             crate::template_dir_for("Chrome").unwrap(),
-            "Library/Application Support/Chrome/Templates",
+            ".config/Chrome/templates",
         );
     }
 }

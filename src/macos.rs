@@ -109,6 +109,8 @@ mod tests {
         assert_eq!(dir.to_string_lossy().to_string(), path.to_string())
     }
 
+    // --------------------------------------------------------------------------------------------
+
     #[test]
     fn test_application_dir() {
         test_dir(crate::application_dir().unwrap(), "/Applications");
@@ -126,6 +128,8 @@ mod tests {
     fn test_user_application_dir() {
         test_user_dir(crate::user_application_dir().unwrap(), "Applications");
     }
+
+    // --------------------------------------------------------------------------------------------
 
     #[test]
     fn test_app_container_dir_for() {
@@ -158,6 +162,8 @@ mod tests {
             "Applications/Chrome.app/Contents/MacOS",
         );
     }
+
+    // --------------------------------------------------------------------------------------------
 
     #[test]
     fn test_cache_dir() {
