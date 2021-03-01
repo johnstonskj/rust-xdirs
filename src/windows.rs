@@ -136,22 +136,22 @@ mod tests {
 
     #[test]
     fn test_app_container_dir_for() {
-        test_dir_is_none(crate::test_app_container_dir_for("Chrome"));
+        test_dir_is_none(crate::app_container_dir_for("Chrome"));
     }
 
     #[test]
     fn test_app_container_executable_dir_for() {
-        test_dir_is_none(crate::test_app_container_executable_dir_for("Chrome"));
+        test_dir_is_none(crate::app_container_executable_dir_for("Chrome"));
     }
 
     #[test]
     fn test_user_app_container_dir_for() {
-        test_dir_is_none(crate::test_user_app_container_dir_for("Chrome"));
+        test_dir_is_none(crate::user_app_container_dir_for("Chrome"));
     }
 
     #[test]
     fn test_user_app_container_executable_dir_for() {
-        test_dir_is_none(crate::test_user_app_container_executable_dir_for("Chrome"));
+        test_dir_is_none(crate::user_app_container_executable_dir_for("Chrome"));
     }
 
     // --------------------------------------------------------------------------------------------
