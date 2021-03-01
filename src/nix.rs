@@ -58,19 +58,19 @@ pub fn data_local_dir_for(app: &str) -> Option<PathBuf> {
 }
 
 pub fn favorites_dir() -> Option<PathBuf> {
-    data_local_dir().map(|h| h.join(D_FAVORITES))
+    None
 }
 
 pub fn favorites_dir_for(app: &str) -> Option<PathBuf> {
-    log_dir().map(|path| path.join(app))
+    data_local_dir_for(app).map(|path| path.join(D_FAVORITES))
 }
 
 pub fn log_dir() -> Option<PathBuf> {
-    data_local_dir().map(|h| h.join(D_LOGS))
+    None
 }
 
 pub fn log_dir_for(app: &str) -> Option<PathBuf> {
-    log_dir().map(|path| path.join(app))
+    data_local_dir_for(app).map(|path| path.join(D_LOGS))
 }
 
 pub fn preference_dir() -> Option<PathBuf> {
@@ -204,27 +204,27 @@ mod tests {
 
     #[test]
     fn test_favorites_dir() {
-        test_user_dir(crate::favorites_dir().unwrap(), ".local/share/favorites");
+        test_dir_is_none(crate::favorites_dir());
     }
 
     #[test]
     fn test_favorites_dir_for() {
         test_user_dir(
             crate::favorites_dir_for("Chrome").unwrap(),
-            ".local/share/favorites/Chrome",
+            ".local/share/Chrome/favorites",
         );
     }
 
     #[test]
     fn test_log_dir() {
-        test_user_dir(crate::log_dir().unwrap(), ".local/share/logs");
+        test_dir_is_none(crate::log_dir());
     }
 
     #[test]
     fn test_log_dir_for() {
         test_user_dir(
             crate::log_dir_for("Chrome").unwrap(),
-            ".local/share/logs/Chrome",
+            ".local/share/Chrome/logs",
         );
     }
 
