@@ -96,7 +96,6 @@ mod tests {
     use dirs_next::home_dir;
     use std::path::PathBuf;
 
-    const USER_NAME: &str = env!("USERNAME");
     const SYSTEM_DRIVE: &str = env!("SystemDrive");
 
     fn test_user_dir(dir: PathBuf, suffix: &str) {
@@ -213,7 +212,7 @@ mod tests {
     fn test_data_local_dir_for() {
         test_user_dir(
             crate::data_local_dir_for("Chrome").unwrap(),
-            "\\AppData\\Local\\Chrome",
+            "AppData\\Local\\Chrome",
         );
     }
 
