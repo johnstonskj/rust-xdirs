@@ -18,6 +18,9 @@ suffix `_for` that take an application name. It is not the case that, for all of
 is safe to append an application name to the generic path, and so these additional functions will
 ensure the correct construction of the application-specific path.
 
+This is an alternative to the [directories-next](https://crates.io/crates/directories-next) and
+maintains a closer interface to dirs-next.
+
 | Generic Form       | dirs | Application-Specific Form |
 | ------------------ | ---- | ------------------------- |
 | `cache_dir`        | Yes  | `cache_dir_for`           |
