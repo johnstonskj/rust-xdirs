@@ -72,6 +72,9 @@ use std::path::PathBuf;
 /// | macOS   | /Applications                            | /Applications            |
 /// | Windows | `{FOLDERID_ProgramFiles}`                | C:\Program Files         |
 ///
+/// See also [`application_shared_dir`](fn.application_shared_dir.html), and
+///   [`user_application_dir`](fn.user_application_dir.html).
+///
 pub fn application_dir() -> Option<PathBuf> {
     sys::application_dir()
 }
@@ -88,6 +91,9 @@ pub fn application_dir() -> Option<PathBuf> {
 /// | macOS   | /Library/Frameworks                      | /Library/Frameworks      |
 /// | Windows | `{FOLDERID_ProgramFilesCommon}`          | C:\Program Files\Common Files |
 ///
+/// See also [`application_dir`](fn.application_dir.html) and
+///   [`user_application_dir`](fn.user_application_dir.html).
+///
 pub fn application_shared_dir() -> Option<PathBuf> {
     sys::application_shared_dir()
 }
@@ -103,6 +109,9 @@ pub fn application_shared_dir() -> Option<PathBuf> {
 /// | Linux   | -                                        | -                        |
 /// | macOS   | `$HOME`/Applications                     | /Users/Alice/Applications     |
 /// | Windows | `{FOLDERID_ProgramFilesCommon}`          | C:\Program Files\Common Files |
+///
+/// See also [`application_dir`](fn.application_dir.html) and
+///   [`application_shared_dir`](fn.application_shared_dir.html).
 ///
 pub fn user_application_dir() -> Option<PathBuf> {
     sys::user_application_dir()
@@ -190,6 +199,8 @@ pub fn user_app_container_executable_dir_for(app: &str) -> Option<PathBuf> {
 /// | macOS   | `$HOME`/Library/Caches/{app}        | /Users/Alice/Library/Caches/MyApp  |
 /// | Windows | `{FOLDERID_LocalAppData}`/{app}     | C:\Users\Alice\AppData\Local\MyApp |
 ///
+/// See also [`cache_dir`](fn.cache_dir.html).
+///
 pub fn cache_dir_for(app: &str) -> Option<PathBuf> {
     sys::cache_dir_for(app)
 }
@@ -205,6 +216,8 @@ pub fn cache_dir_for(app: &str) -> Option<PathBuf> {
 /// | Linux   | `$XDG_CONFIG_HOME` or `$HOME`/.config/{app} | /home/alice/.config/MyApp              |
 /// | macOS   | `$HOME`/Library/Application Support/{app}   | /Users/Alice/Library/Application Support/MyApp |
 /// | Windows | `{FOLDERID_RoamingAppData}`/{app}           | C:\Users\Alice\AppData\Roaming\MyApp   |
+///
+/// See also [`config_dir`](fn.config_dir.html)`.
 ///
 pub fn config_dir_for(app: &str) -> Option<PathBuf> {
     sys::config_dir_for(app)
@@ -222,6 +235,8 @@ pub fn config_dir_for(app: &str) -> Option<PathBuf> {
 /// | macOS   | `$HOME`/Library/Application Support/{app}      | /Users/Alice/Library/Application Support/MyApp |
 /// | Windows | `{FOLDERID_RoamingAppData}`/{app}              | C:\Users\Alice\AppData\Roaming\MyApp           |
 ///
+/// See also [`data_dir`](fn.data_dir.html).
+///
 pub fn data_dir_for(app: &str) -> Option<PathBuf> {
     sys::data_dir_for(app)
 }
@@ -237,6 +252,8 @@ pub fn data_dir_for(app: &str) -> Option<PathBuf> {
 /// | Linux   | `$XDG_DATA_HOME` or `$HOME`/.local/share/{app} | /home/alice/.local/share/MyApp    |
 /// | macOS   | `$HOME`/Library/Application Support/{app}      | /Users/Alice/Library/Application Support/MyApp |
 /// | Windows | `{FOLDERID_LocalAppData}`/{app}                | C:\Users\Alice\AppData\Local\MyApp |
+///
+/// See also [`data_local_dir`](fn.data_local_dir.html).
 ///
 pub fn data_local_dir_for(app: &str) -> Option<PathBuf> {
     sys::data_local_dir_for(app)
@@ -254,6 +271,8 @@ pub fn data_local_dir_for(app: &str) -> Option<PathBuf> {
 /// | macOS   | `$HOME`/Library/Favorites                | /Users/Alice/Library/Favorites          |
 /// | Windows | `{FOLDERID_Favorites}`                   | C:\Users\Alice\Favorites                |
 ///
+/// See also [`favorites_dir_for`](fn.favorites_dir_for.html).
+///
 pub fn favorites_dir() -> Option<PathBuf> {
     sys::favorites_dir()
 }
@@ -270,30 +289,116 @@ pub fn favorites_dir() -> Option<PathBuf> {
 /// | macOS   | `$HOME`/Library/Favorites/{app}          | /Users/Alice/Library/Favorites/MyApp    |
 /// | Windows | `{FOLDERID_Favorites}`/{app}             | C:\Users\Alice\Favorites\MyApp          |
 ///
+/// See also [`favorites_dir`](fn.favorites_dir.html).
+///
 pub fn favorites_dir_for(app: &str) -> Option<PathBuf> {
     sys::favorites_dir_for(app)
 }
 
+///
+/// Returns the path to the user's log file directory.
+///
+/// The returned value depends on the operating system and is either a `Some`, containing a value
+/// from the following table, or a `None`.
+///
+/// |Platform | Value                                    | Example                                 |
+/// | ------- | ---------------------------------------- | --------------------------------------- |
+/// | Linux   | -                                        | -                                       |
+/// | macOS   | `$HOME`/Library/Logs                     | /Users/Alice/Library/Logs               |
+/// | Windows | `{FOLDERID_LocalAppData}`\Logs           | C:\Users\Alice\AppData\AppData\Local\Logs  |
+///
+/// See also [`log_dir_for`](fn.log_dir_for.html).
+///
 pub fn log_dir() -> Option<PathBuf> {
     sys::log_dir()
 }
 
+///
+/// Returns the path to the user's log file directory for a specific application.
+///
+/// The returned value depends on the operating system and is either a `Some`, containing a value
+/// from the following table, or a `None`.
+///
+/// |Platform | Value                                    | Example                                 |
+/// | ------- | ---------------------------------------- | --------------------------------------- |
+/// | Linux   | `$XDG_DATA_HOME` or `$HOME`/.local/share/{app}/logs | /home/alice/.local/share/MyApp/logs |
+/// | macOS   | `$HOME`/Library/Logs/{app}               | /Users/Alice/Library/Logs/Chrome        |
+/// | Windows | `{FOLDERID_LocalAppData}`\Logs\{app}     | C:\Users\Alice\AppData\AppData\Local\Logs\Chrome  |
+///
+/// See also [`log_dir`](fn.log_dir.html).
+///
 pub fn log_dir_for(app: &str) -> Option<PathBuf> {
     sys::log_dir_for(app)
 }
 
+///
+/// Returns the path to the user's preference file directory.
+///
+/// The returned value depends on the operating system and is either a `Some`, containing a value
+/// from the following table, or a `None`.
+///
+/// |Platform | Value                                    | Example                                 |
+/// | ------- | ---------------------------------------- | --------------------------------------- |
+/// | Linux   | `$XDG_DATA_HOME` or `$HOME`/.config      | /home/alice/.config                     |
+/// | macOS   | `$HOME`/Library/Preferences              | /Users/Alice/Library/Preferences        |
+/// | Windows | `{FOLDERID_RoamingAppData}`/{app}        | C:\Users\Alice\AppData\Roaming\MyApp    |
+///
+/// See also [`preference_dir_for`](fn.preference_dir_for.html).
+///
 pub fn preference_dir() -> Option<PathBuf> {
     sys::preference_dir()
 }
 
+///
+/// Returns the path to the user's preference file directory for a specific application.
+///
+/// The returned value depends on the operating system and is either a `Some`, containing a value
+/// from the following table, or a `None`.
+///
+/// |Platform | Value                                    | Example                                 |
+/// | ------- | ---------------------------------------- | --------------------------------------- |
+/// | Linux   | `$XDG_DATA_HOME` or `$HOME`/.config      | /home/alice/.config                     |
+/// | macOS   | `$HOME`/Library/Preferences/{app}        | /Users/Alice/Library/Preferences/Chrome |
+/// | Windows | `{FOLDERID_RoamingAppData}`/{app}        | C:\Users\Alice\AppData\Roaming\MyApp    |
+///
+/// See also [`preference_dir`](fn.preference_dir.html).
+///
 pub fn preference_dir_for(app: &str) -> Option<PathBuf> {
     sys::preference_dir_for(app)
 }
 
+///
+/// Returns the path to the user's template directory.
+///
+/// The returned value depends on the operating system and is either a `Some`, containing a value
+/// from the following table, or a `None`.
+///
+/// |Platform | Value                                    | Example                                 |
+/// | ------- | ---------------------------------------- | --------------------------------------- |
+/// | Linux   | `$XDG_TEMPLATES_DIR`                     | /home/alice/Templates                   |
+/// | macOS   | -                                        | -                                       |
+/// | Windows | `{FOLDERID_Templates}`                   | C:\Users\Alice\AppData\Roaming\Microsoft\Windows\Templates |
+///
+/// See also [`template_dir_for`](fn.template_dir_for.html).
+///
 pub fn template_dir() -> Option<PathBuf> {
     sys::template_dir()
 }
 
+///
+/// Returns the path to the user's template directory for a specific application.
+///
+/// The returned value depends on the operating system and is either a `Some`, containing a value
+/// from the following table, or a `None`.
+///
+/// |Platform | Value                                    | Example                                 |
+/// | ------- | ---------------------------------------- | --------------------------------------- |
+/// | Linux   | `$XDG_TEMPLATES_DIR`/{app}               | /home/alice/Templates                   |
+/// | macOS   | `$HOME`Library/Application Support/{app}/Templates | /Users/Alice/Library/Application Support/Chrome/Templates |
+/// | Windows | `{FOLDERID_Templates}`/{app}             | C:\Users\Alice\AppData\Roaming\Microsoft\Windows\Templates |
+///
+/// See also [`template_dir`](fn.template_dir.html).
+///
 pub fn template_dir_for(app: &str) -> Option<PathBuf> {
     sys::template_dir_for(app)
 }
