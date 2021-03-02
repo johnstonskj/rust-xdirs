@@ -1,4 +1,4 @@
-use dirs_next::{cache_dir, config_dir, data_dir, data_local_dir, home_dir};
+use dirs_next::{cache_dir, config_dir, data_dir, data_local_dir};
 use dirs_sys_next::known_folder;
 use std::path::PathBuf;
 use winapi::um::knownfolders;
@@ -60,7 +60,7 @@ pub fn favorites_dir() -> Option<PathBuf> {
 }
 
 pub fn favorites_dir_for(app: &str) -> Option<PathBuf> {
-    log_dir().map(|path| path.join(app))
+    favorites_dir().map(|path| path.join(app))
 }
 
 pub fn log_dir() -> Option<PathBuf> {
@@ -94,6 +94,8 @@ mod tests {
     use dirs_next::home_dir;
     use std::path::PathBuf;
 
+    const SYSTEM_DRIVE: &str = env!("SystemDrive");
+
     fn test_user_dir(dir: PathBuf, suffix: &str) {
         assert_eq!(
             dir.to_string_lossy().to_string(),
@@ -106,7 +108,10 @@ mod tests {
     }
 
     fn test_dir(dir: PathBuf, path: &str) {
-        assert_eq!(dir.to_string_lossy().to_string(), path.to_string())
+        assert_eq!(
+            dir.to_string_lossy().to_string(),
+            &format!("{}{}", SYSTEM_PATH, path.to_string())
+        )
     }
 
     fn test_dir_is_none(dir: Option<PathBuf>) {
@@ -117,14 +122,14 @@ mod tests {
 
     #[test]
     fn test_application_dir() {
-        test_dir(crate::application_dir().unwrap(), "/Applications");
+        test_dir(crate::application_dir().unwrap(), "C:\\Program Files");
     }
 
     #[test]
     fn test_application_shared_dir() {
         test_dir(
             crate::application_shared_dir().unwrap(),
-            "/Library/Frameworks",
+            "C:\\Program Files\\Common Files",
         );
     }
 
