@@ -138,7 +138,7 @@ mod tests {
 
     #[test]
     fn test_user_application_dir() {
-        test_ - dir_is_none(crate::user_application_dir());
+        test_dir_is_none(crate::user_application_dir());
     }
 
     // --------------------------------------------------------------------------------------------
