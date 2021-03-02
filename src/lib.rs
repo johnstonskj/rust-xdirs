@@ -14,9 +14,10 @@ ensure the correct construction of the application-specific path.
 | `data_dir`                    | [`data_dir_for`](fn.data_dir_for.html)             |
 | `data_local_dir`              | [`data_local_dir_for`](fn.data_local_dir_for.html) |
 | [`favorites_dir`](fn.favorites_dir.html)   | [`favorites_dir_for`](fn.favorites_dir_for.html)   |
+| [`log_dir`](fn.log_dir.html)  | [`log_dir_for`](fn.log_dir_for.html) |
 | [`preference_dir`](fn.preference_dir.html) | [`preference_dir_for`](fn.preference_dir_for.html) |
 | [`cache_dir`](fn.cache_dir.html)           | [`cache_dir_for`](fn.cache_dir_for.html)           |
-| [`template_dir`](fn.template_dir.html)     | [`template_dir_for`](fn.template_dir_for.html)     |
+| `template_dir`               | [`template_dir_for`](fn.template_dir_for.html)     |
 
 Additionally the following may be used to determine the location for installed applications.
 

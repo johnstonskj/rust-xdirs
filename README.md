@@ -25,9 +25,9 @@ ensure the correct construction of the application-specific path.
 | `data_dir`         | Yes  | `data_dir_for`            |
 | `data_local_dir`   | Yes  | `data_local_dir_for`      |
 | `favorites_dir`    | No   | `favorites_dir_for`       |
+| `log_dir`          | No   | `log_dir_for`             |
 | `preference_dir`   | No   | `preference_dir_for`      |
-| `cache_dir`        | No   | `cache_dir_for`           |
-| `template_dir`     | No   | `template_dir_for`        |
+| `template_dir`     | Yes  | `template_dir_for`        |
 
 The column *dirs* denotes whether the generic form is present in the 
 [dirs](https://crates.io/crates/dirs) or [dirs-next](https://crates.io/crates/dirs-next) crate.
