@@ -75,10 +75,15 @@ the mechanisms defined by
 
 ## Changes
 
+**Version 0.1.1**
+
+* Added: example and text to README.
+* Fixed: documentation links and table of functions.
+
 **Version 0.1.0**
 
-* Initial version, all primary functions tested on Linux (Ubuntu), macOS, and Windows.
-* Documentation included, with the same form as dirs_next.
+* Initial version: all primary functions tested on Linux (Ubuntu), macOS, and Windows.
+* Documentation: included function doc with the same form as dirs_next.
 
 ## TODO
 
