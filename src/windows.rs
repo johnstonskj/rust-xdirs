@@ -110,7 +110,7 @@ mod tests {
     fn test_dir(dir: PathBuf, path: &str) {
         assert_eq!(
             dir.to_string_lossy().to_string(),
-            &format!("{}{}", SYSTEM_DRIVE, path.to_string())
+            format!("{}{}", SYSTEM_DRIVE, path.to_string())
         )
     }
 
