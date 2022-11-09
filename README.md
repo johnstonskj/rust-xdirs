@@ -89,3 +89,6 @@ the mechanisms defined by
 
 * Support WASM target, dist-next does.
 * Look into flatpack, app-image, or snap app container support.
+* re-export from dirs_next:
+  * audio_dir, desktop_dir, document_dir, download_dir, executable_dir?,
+    font_dir, home_dir, picture_dir, public_dir, runtime_dir, video_dir,
